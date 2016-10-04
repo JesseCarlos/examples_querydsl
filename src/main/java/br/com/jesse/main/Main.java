@@ -2,12 +2,14 @@ package br.com.jesse.main;
 
 import br.com.jesse.model.QModel;
 import br.com.jesse.model.QSale;
+import br.com.jesse.model.Sale;
 import br.com.jesse.services.ModelService;
 import br.com.jesse.services.SaleService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class Main {
 
@@ -16,10 +18,8 @@ public class Main {
         final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         final SaleService saleService = new SaleService(entityManager);
-
-        entityManager.getTransaction().begin();
-        new ModelService(entityManager).updateModelBMWZ4ToZ3();
-        entityManager.getTransaction().commit();
+        final List<Sale> salesBrandAUDIAndBMW = saleService.findSalesBrandAUDIAndBMW();
+        salesBrandAUDIAndBMW.forEach(System.out::println);
 
         entityManagerFactory.close();
     }
